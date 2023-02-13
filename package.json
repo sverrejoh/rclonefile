@@ -1,16 +1,13 @@
 {
   "name": "rclonefile",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
     "name": "rclonefile",
     "triples": {
       "defaults": false,
-      "additional": [
-        "aarch64-apple-darwin",
-        "x86_64-apple-darwin"
-      ]
+      "additional": ["aarch64-apple-darwin", "x86_64-apple-darwin"]
     }
   },
   "license": "MIT",
