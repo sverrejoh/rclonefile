@@ -26,7 +26,7 @@ pub fn clonefile_sync(src: String, dst: String) -> Result<i32> {
   }
 }
 
-struct AsyncClonefile {
+pub struct AsyncClonefile {
   src: String,
   dst: String,
 }
@@ -47,6 +47,6 @@ impl Task for AsyncClonefile {
 }
 
 #[napi(js_name = "cloneFile")]
-fn clonefile_task(src: String, dst: String) -> AsyncTask<AsyncClonefile> {
+pub fn clonefile_task(src: String, dst: String) -> AsyncTask<AsyncClonefile> {
   AsyncTask::new(AsyncClonefile { src, dst })
 }
