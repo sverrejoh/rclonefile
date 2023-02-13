@@ -11,20 +11,11 @@ use std::ffi::CString;
 extern crate napi_derive;
 
 #[napi(object)]
+#[derive(Clone, Debug)]
 pub struct CloneFileOptions {
   pub no_follow: bool,
   pub no_owner_copy: bool,
   pub clone_acl: bool,
-}
-
-impl Default for CloneFileOptions {
-  fn default() -> Self {
-    CloneFileOptions {
-      no_follow: false,
-      no_owner_copy: false,
-      clone_acl: false,
-    }
-  }
 }
 
 const CLONE_NOFOLLOW: u32 = 1 << 0;
@@ -71,6 +62,7 @@ pub fn clonefile_sync(src: String, dst: String, options: Option<CloneFileOptions
 pub struct AsyncClonefile {
   src: String,
   dst: String,
+  options: Option<CloneFileOptions>,
 }
 
 #[napi]
@@ -79,7 +71,7 @@ impl Task for AsyncClonefile {
   type JsValue = JsNumber;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    clonefile_sync(self.src.clone(), self.dst.clone(), Default::default())
+    clonefile_sync(self.src.clone(), self.dst.clone(), self.options.clone())
   }
 
   fn resolve(&mut self, env: Env, output: i32) -> Result<Self::JsValue> {
@@ -88,6 +80,10 @@ impl Task for AsyncClonefile {
 }
 
 #[napi(js_name = "cloneFile")]
-pub fn clonefile_task(src: String, dst: String) -> AsyncTask<AsyncClonefile> {
-  AsyncTask::new(AsyncClonefile { src, dst })
+pub fn clonefile_task(
+  src: String,
+  dst: String,
+  options: Option<CloneFileOptions>,
+) -> AsyncTask<AsyncClonefile> {
+  AsyncTask::new(AsyncClonefile { src, dst, options })
 }
