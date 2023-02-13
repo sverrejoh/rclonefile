@@ -7,7 +7,10 @@
     "name": "rclonefile",
     "triples": {
       "defaults": false,
-      "additional": ["aarch64-apple-darwin", "x86_64-apple-darwin"]
+      "additional": [
+        "aarch64-apple-darwin",
+        "x86_64-apple-darwin"
+      ]
     }
   },
   "license": "MIT",
@@ -38,5 +41,7 @@
   "packageManager": "yarn@3.4.1",
   "dependencies": {
     "esm": "^3.2.25"
-  }
+  },
+  "repository": "https://github.com/sverrejoh/rclonefile",
+  "description": "macOS API for creating copy on write clones of files"
 }
