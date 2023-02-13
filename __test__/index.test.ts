@@ -92,4 +92,22 @@ describe("cloneFile", () => {
     expect(existsSync(target)).toBe(false);
     expect(stat.isSymbolicLink()).toBe(true);
   });
+
+  test("clonefile a file that doesn't exist", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/does-not-exist.txt");
+    const target = join(tempDir, "mario-clone.txt");
+    expect(() => cloneFileSync(source, target)).toThrow(
+      "No such file or directory"
+    );
+  });
+
+  test("clonefile a path that isn't a string", async () => {
+    const tempDir = directory();
+    const source = 42;
+    const target = join(tempDir, "mario-clone.txt");
+    expect(() => cloneFileSync(source, target)).toThrow(
+      "Failed to convert JavaScript value `Number 42 ` into rust type `String`"
+    );
+  });
 });
