@@ -18,7 +18,7 @@ cloneFileSync("source/mario.txt", "target/mario-clone-txt");
 
 ```
 
-## Sync API
+## async/await
 
 ```js
 
@@ -28,7 +28,7 @@ await cloneFile("source/mario.txt", "target/mario-clone-txt");
 
 ```
 
-## Sync API using Promise
+## Promise
 
 ```js
 
