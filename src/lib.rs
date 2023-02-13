@@ -53,15 +53,12 @@ pub fn clonefile_sync(src: String, dst: String, options: Option<CloneFileOptions
   let dst = CString::new(dst)?;
   let flags = flags_from_options(options);
 
-  print!("rclonefile Flags: {}", flags);
-
   let res = unsafe { clonefile(src.as_ptr(), dst.as_ptr(), flags) };
 
   if res == -1 {
     let e = errno();
     set_errno(e);
-    let code = e.0;
-    return Err(Error::from_reason(format!("{code}: {e}")));
+    return Err(Error::from_reason(format!("{e}")));
   } else {
     return Ok(res);
   }
