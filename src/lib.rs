@@ -11,11 +11,11 @@ use std::ffi::CString;
 extern crate napi_derive;
 
 #[napi(object)]
-#[derive(Clone, Debug)]
+#[derive(Default, Clone, Debug)]
 pub struct CloneFileOptions {
-  pub no_follow: bool,
-  pub no_owner_copy: bool,
-  pub clone_acl: bool,
+  pub no_follow: Option<bool>,
+  pub no_owner_copy: Option<bool>,
+  pub clone_acl: Option<bool>,
 }
 
 const CLONE_NOFOLLOW: u32 = 1 << 0;
@@ -32,9 +32,15 @@ fn flags_from_options(options: Option<CloneFileOptions>) -> u32 {
         clone_acl,
       } = options;
 
-      let flags = if no_follow { CLONE_NOFOLLOW } else { 0 }
-        | if no_owner_copy { CLONE_NOOWNERCOPY } else { 0 }
-        | if clone_acl { CLONE_ACL } else { 0 };
+      let flags = no_follow
+        .unwrap_or(false)
+        .then_some(CLONE_NOFOLLOW)
+        .unwrap_or(0)
+        | no_owner_copy
+          .unwrap_or(false)
+          .then_some(CLONE_NOOWNERCOPY)
+          .unwrap_or(0)
+        | clone_acl.unwrap_or(false).then_some(CLONE_ACL).unwrap_or(0);
 
       flags
     }
@@ -46,6 +52,8 @@ pub fn clonefile_sync(src: String, dst: String, options: Option<CloneFileOptions
   let src = CString::new(src)?;
   let dst = CString::new(dst)?;
   let flags = flags_from_options(options);
+
+  print!("rclonefile Flags: {}", flags);
 
   let res = unsafe { clonefile(src.as_ptr(), dst.as_ptr(), flags) };
 
