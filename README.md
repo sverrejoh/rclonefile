@@ -44,6 +44,6 @@ cloneFileSync("source/mario.txt", "target/mario-clone-txt");
 
 ## Links
 
-- [rclonefile](https://github.com/sverrejoh/rclonefile-cli) - CLI for this module
+- [rclonefile-cli](https://github.com/sverrejoh/rclonefile-cli) - CLI for this module
 - [clonefile(2)](https://www.manpagez.com/man/2/clonefile/) - Man page for system API
 
