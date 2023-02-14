@@ -32,7 +32,7 @@ cloneFile("source/mario.txt", "target/mario-clone-txt").then(() => {
 
 ```
 
-## Sync API
+### Sync API
 
 ```js
 
