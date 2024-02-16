@@ -1,0 +1,15 @@
+{
+  "name": "rclonefile-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "rclonefile.darwin-universal.node",
+  "files": [
+    "rclonefile.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

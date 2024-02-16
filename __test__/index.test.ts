@@ -1,4 +1,4 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, test } from "vitest";
 import { promises as fs, existsSync } from "fs";
 import { cloneFile, cloneFileSync } from "../index";
 import { directory } from "tempy";
@@ -98,7 +98,7 @@ describe("cloneFile", () => {
     const source = join(__dirname, "inputs/does-not-exist.txt");
     const target = join(tempDir, "mario-clone.txt");
     expect(() => cloneFileSync(source, target)).toThrow(
-      "No such file or directory"
+      "No such file or directory",
     );
   });
 
@@ -107,7 +107,7 @@ describe("cloneFile", () => {
     const source = 42;
     const target = join(tempDir, "mario-clone.txt");
     expect(() => cloneFileSync(source, target)).toThrow(
-      "Failed to convert JavaScript value `Number 42 ` into rust type `String`"
+      "Failed to convert JavaScript value `Number 42 ` into rust type `String`",
     );
   });
 });
