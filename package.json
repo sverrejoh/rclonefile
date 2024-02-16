@@ -1,28 +1,11 @@
 {
   "name": "rclonefile",
   "version": "1.0.2",
+  "description": "macOS API for creating copy on write clones of files",
+  "repository": "https://github.com/sverrejoh/rclonefile",
+  "license": "MIT",
   "main": "index.js",
   "types": "index.d.ts",
-  "napi": {
-    "name": "rclonefile",
-    "triples": {
-      "additional": [
-        "aarch64-apple-darwin",
-        "x86_64-apple-darwin",
-        "universal-apple-darwin"
-      ]
-    }
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@napi-rs/cli": "^2.18.0",
-    "prettier": "^3.2.5",
-    "tempy": "^1.0.1",
-    "vitest": "^1.2.2"
-  },
-  "engines": {
-    "node": ">= 10"
-  },
   "scripts": {
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
@@ -32,10 +15,26 @@
     "universal": "napi universal",
     "version": "napi version"
   },
-  "packageManager": "yarn@4.1.0",
-  "dependencies": {
-    "@types/node": "^20.11.19"
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.0",
+    "@types/node": "^20.11.19",
+    "prettier": "^3.2.5",
+    "prettier-plugin-packagejson": "^2.4.11",
+    "tempy": "^1.0.1",
+    "vitest": "^1.2.2"
   },
-  "repository": "https://github.com/sverrejoh/rclonefile",
-  "description": "macOS API for creating copy on write clones of files"
+  "packageManager": "yarn@4.1.0",
+  "engines": {
+    "node": ">= 10"
+  },
+  "napi": {
+    "name": "rclonefile",
+    "triples": {
+      "additional": [
+        "aarch64-apple-darwin",
+        "x86_64-apple-darwin",
+        "universal-apple-darwin"
+      ]
+    }
+  }
 }
