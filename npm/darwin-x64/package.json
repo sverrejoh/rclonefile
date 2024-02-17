@@ -1,18 +1,20 @@
 {
   "name": "rclonefile-darwin-x64",
   "version": "1.0.3",
+  "description": "macOS API for creating copy on write clones of files",
+  "repository": "https://github.com/sverrejoh/rclonefile",
+  "license": "MIT",
+  "main": "rclonefile.darwin-x64.node",
+  "files": [
+    "rclonefile.darwin-x64.node"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
   "os": [
     "darwin"
   ],
   "cpu": [
     "x64"
-  ],
-  "main": "rclonefile.darwin-x64.node",
-  "files": [
-    "rclonefile.darwin-x64.node"
-  ],
-  "license": "MIT",
-  "engines": {
-    "node": ">= 10"
-  }
+  ]
 }
