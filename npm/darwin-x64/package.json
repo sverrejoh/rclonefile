@@ -1,6 +1,6 @@
 {
   "name": "rclonefile-darwin-x64",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "macOS API for creating copy on write clones of files",
   "repository": {
     "type": "git",
