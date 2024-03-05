@@ -1,6 +1,6 @@
 {
   "name": "rclonefile-darwin-universal",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "macOS API for creating copy on write clones of files",
   "repository": "https://github.com/sverrejoh/rclonefile",
   "license": "MIT",
