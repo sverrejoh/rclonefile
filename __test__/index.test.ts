@@ -1,3 +1,10 @@
+/**
+ * Tests for rclonefile - macOS copy-on-write file cloning
+ *
+ * Note: These tests require macOS with APFS filesystem support.
+ * The clonefile API is macOS-specific and won't work on Linux/Windows.
+ * The CI/CD pipeline runs these tests on macOS runners (Node 18, 20, 22).
+ */
 import { describe, expect, test } from "vitest";
 import { promises as fs, existsSync } from "fs";
 import { cloneFile, cloneFileSync } from "../index";
@@ -109,5 +116,164 @@ describe("cloneFile", () => {
     expect(() => cloneFileSync(source, target)).toThrow(
       "Failed to convert JavaScript value `Number 42 ` into rust type `String`",
     );
+  });
+
+  test("clonefile async with noOwnerCopy option", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone.txt");
+    const result = await cloneFile(source, target, { noOwnerCopy: true });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+
+    // On macOS, the cloned file should exist with potentially different ownership
+    const stat = await fs.lstat(target);
+    expect(stat.isFile()).toBe(true);
+  });
+
+  test("clonefile sync with noOwnerCopy option", () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-noowner.txt");
+    cloneFileSync(source, target, { noOwnerCopy: true });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+  });
+
+  test("clonefile async with cloneAcl option", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-acl.txt");
+    const result = await cloneFile(source, target, { cloneAcl: true });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+
+    // On macOS with ACLs enabled, the ACLs should be cloned
+    const stat = await fs.lstat(target);
+    expect(stat.isFile()).toBe(true);
+  });
+
+  test("clonefile sync with cloneAcl option", () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-acl-sync.txt");
+    cloneFileSync(source, target, { cloneAcl: true });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+  });
+
+  test("clonefile async with multiple options", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-multi.txt");
+    const result = await cloneFile(source, target, {
+      noOwnerCopy: true,
+      cloneAcl: true,
+    });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+  });
+
+  test("clonefile sync with multiple options", () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-multi-sync.txt");
+    cloneFileSync(source, target, {
+      noOwnerCopy: true,
+      cloneAcl: true,
+    });
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+  });
+
+  test("clonefile async with all options combined", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario-link.txt");
+    const target = join(tempDir, "mario-clone-all.txt");
+    const result = await cloneFile(source, target, {
+      noFollow: true,
+      noOwnerCopy: true,
+      cloneAcl: true,
+    });
+
+    const stat = await fs.lstat(target);
+    expect(stat.isSymbolicLink()).toBe(true);
+  });
+
+  test("clonefile async error - non-existent file", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/does-not-exist.txt");
+    const target = join(tempDir, "mario-clone.txt");
+
+    await expect(cloneFile(source, target)).rejects.toThrow();
+  });
+
+  test("clonefile async error - invalid target path", async () => {
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = "/invalid/path/that/does/not/exist/file.txt";
+
+    await expect(cloneFile(source, target)).rejects.toThrow();
+  });
+
+  test("clonefile sync error - invalid target path", () => {
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = "/invalid/path/that/does/not/exist/file.txt";
+
+    expect(() => cloneFileSync(source, target)).toThrow();
+  });
+
+  test("clonefile with empty options object", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-empty-opts.txt");
+    const result = await cloneFile(source, target, {});
+
+    expect(existsSync(target)).toBe(true);
+
+    const sourceData = readFileSync(source).toString();
+    const targetData = readFileSync(target).toString();
+    expect(sourceData).toBe(targetData);
+  });
+
+  test("clonefile returns a number result", async () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-result.txt");
+    const result = await cloneFile(source, target);
+
+    expect(typeof result).toBe("number");
+  });
+
+  test("cloneFileSync returns a number result", () => {
+    const tempDir = directory();
+    const source = join(__dirname, "inputs/mario.txt");
+    const target = join(tempDir, "mario-clone-sync-result.txt");
+    const result = cloneFileSync(source, target);
+
+    expect(typeof result).toBe("number");
   });
 });
