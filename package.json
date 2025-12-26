@@ -13,9 +13,9 @@
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
-    "prepublishOnly": "napi prepublish -t npm",
+    "prepublishOnly": "napi pre-publish -p npm",
     "test": "vitest",
-    "universal": "napi universal",
+    "universal": "napi universalize",
     "version": "napi version"
   },
   "devDependencies": {
