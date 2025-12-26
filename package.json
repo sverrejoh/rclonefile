@@ -1,6 +1,6 @@
 {
   "name": "rclonefile",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "macOS API for creating copy on write clones of files",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
-    "prepublishOnly": "napi pre-publish -p npm",
+    "prepublishOnly": "napi pre-publish -p npm --skip-gh-release",
     "test": "vitest",
     "universal": "napi universalize",
     "version": "napi version"
