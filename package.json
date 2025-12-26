@@ -1,6 +1,6 @@
 {
   "name": "rclonefile",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "macOS API for creating copy on write clones of files",
   "repository": {
     "type": "git",
