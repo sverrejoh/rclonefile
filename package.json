@@ -19,25 +19,23 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^2.18.0",
-    "@types/node": "^20.11.24",
-    "prettier": "^3.2.5",
-    "prettier-plugin-packagejson": "^2.4.12",
-    "tempy": "^1.0.1",
-    "vitest": "^1.3.1"
+    "@napi-rs/cli": "^3.5.0",
+    "@types/node": "^25.0.0",
+    "prettier": "^3.7.0",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "tempy": "^3.1.0",
+    "vitest": "^4.0.0"
   },
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.6.0",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 24"
   },
   "napi": {
-    "name": "rclonefile",
-    "triples": {
-      "additional": [
-        "aarch64-apple-darwin",
-        "x86_64-apple-darwin",
-        "universal-apple-darwin"
-      ]
-    }
+    "binaryName": "rclonefile",
+    "targets": [
+      "aarch64-apple-darwin",
+      "x86_64-apple-darwin",
+      "universal-apple-darwin"
+    ]
   }
 }

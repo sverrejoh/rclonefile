@@ -4,7 +4,7 @@ extern crate libc;
 use errno::{errno, set_errno};
 use libc::clonefile;
 use napi::bindgen_prelude::AsyncTask;
-use napi::{Env, Error, JsNumber, Result, Task};
+use napi::{Env, Error, Result, Task};
 use std::ffi::CString;
 
 #[macro_use]
@@ -73,14 +73,14 @@ pub struct AsyncClonefile {
 #[napi]
 impl Task for AsyncClonefile {
   type Output = i32;
-  type JsValue = JsNumber;
+  type JsValue = i32;
 
   fn compute(&mut self) -> Result<Self::Output> {
     clonefile_sync(self.src.clone(), self.dst.clone(), self.options.clone())
   }
 
-  fn resolve(&mut self, env: Env, output: i32) -> Result<Self::JsValue> {
-    env.create_int32(output)
+  fn resolve(&mut self, _env: Env, output: i32) -> Result<Self::JsValue> {
+    Ok(output)
   }
 }
 
