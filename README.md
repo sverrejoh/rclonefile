@@ -42,6 +42,30 @@ cloneFileSync("source/mario.txt", "target/mario-clone-txt");
 
 ```
 
+## Options
+
+All functions accept an optional third argument with the following options:
+
+```ts
+interface CloneFileOptions {
+  noFollow?: boolean;    // Don't follow symlinks, clone the link itself
+  noOwnerCopy?: boolean; // Don't copy ownership information
+  cloneAcl?: boolean;    // Clone ACL (Access Control List) information
+}
+```
+
+### Example with options
+
+```js
+import { cloneFile } from "rclonefile";
+
+// Clone a symlink as a symlink (don't follow it)
+await cloneFile("source/link.txt", "target/link.txt", { noFollow: true });
+
+// Clone without copying ownership
+await cloneFile("source/file.txt", "target/file.txt", { noOwnerCopy: true });
+```
+
 ## Links
 
 - [rclonefile-cli](https://github.com/sverrejoh/rclonefile-cli) - CLI for this module
