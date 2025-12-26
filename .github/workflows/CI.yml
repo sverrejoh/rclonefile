@@ -152,8 +152,12 @@ jobs:
         with:
           name: bindings-aarch64-apple-darwin
           path: artifacts
+      - name: List artifacts
+        run: ls -la artifacts/
       - name: Move artifacts
         run: mv artifacts/*.node .
+      - name: List root
+        run: ls -la *.node
       - name: Combine binaries
         run: yarn universal
       - name: Upload artifact
